@@ -1,6 +1,5 @@
 package homework2.task2;
 
-import java.util.Arrays;
 
 public class ListArray<T>{
     private Object[] o;

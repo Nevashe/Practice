@@ -1,8 +1,5 @@
 package homework2.task2;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MainTask2 {
     /*
     * 2. Реализовать основные методы ArrayList.
