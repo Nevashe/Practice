@@ -1,0 +1,50 @@
+
+// всего посетителей, в среднем на сеансе, общие сборы, итог
+// не знаю как сделать практичней
+WITH statistics_films AS(
+(SELECT f1.title,
+	(SELECT COUNT(tickets) FROM tickets
+ 	JOIN sessions ON sessions.id=tickets.session_id
+ 	JOIN films f2 ON sessions.film_id=f2.id
+	WHERE f2 = f1)
+ all_times,
+	(SELECT COUNT(tickets) FROM tickets
+ 	JOIN sessions ON sessions.id=tickets.session_id
+ 	JOIN films f2 ON sessions.film_id=f2.id
+	WHERE f2 = f1)
+	 /
+	(SELECT COUNT(sessions)
+ 	FROM sessions
+ 	JOIN films f2 ON sessions.film_id=f2.id
+	WHERE f2 = f1)
+ one_session,
+	(SELECT SUM(sessions.price * (SELECT COUNT(tickets) FROM tickets WHERE tickets.session_id = sessions.id))
+	FROM sessions
+	JOIN films f2 ON sessions.film_id=f2.id
+	WHERE f2 = f1)
+fees
+FROM films f1 ORDER BY fees DESC)),
+
+statistics_total AS
+(SELECT 'Total',
+(SELECT COUNT(tickets) FROM tickets
+ 	JOIN sessions ON sessions.id=tickets.session_id
+ 	JOIN films f2 ON sessions.film_id=f2.id)
+all_times,
+	(SELECT COUNT(tickets)  FROM tickets
+ 	JOIN sessions ON sessions.id=tickets.session_id
+ 	JOIN films f2 ON sessions.film_id=f2.id)
+ /
+ 	(SELECT COUNT(sessions) FROM sessions
+ 	JOIN films f2 ON sessions.film_id=f2.id
+	)
+one_session,
+	(SELECT SUM(sessions.price * (SELECT COUNT(tickets) FROM tickets WHERE tickets.session_id = sessions.id))
+	FROM sessions JOIN films f2 ON sessions.film_id=f2.id)
+ fees
+FROM films ORDER BY fees LIMIT 1)
+
+SELECT * FROM statistics_films
+UNION ALL
+SELECT * FROM statistics_total;
+

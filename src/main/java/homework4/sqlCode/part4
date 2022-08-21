@@ -1,0 +1,52 @@
+// аналогичная проблема как и с part3
+WITH times_statistics_9_15 AS(
+(SELECT '9:00 - 15:00' times,
+	(SELECT COUNT(tickets) FROM tickets
+ 	JOIN sessions ON sessions.id=tickets.session_id
+	WHERE sessions.time BETWEEN interval '9:00' AND interval '15:00')
+ clients_this_time,
+	SUM(sessions.price * (SELECT COUNT(tickets) FROM tickets
+						  WHERE tickets.session_id = sessions.id
+						  AND sessions.time BETWEEN interval '9:00' AND interval '15:00'))
+fees_this_time
+FROM sessions ORDER BY times LIMIT 1)),
+times_statistics_15_18 AS(
+(SELECT '15:00 - 18:00' times,
+	(SELECT COUNT(tickets) FROM tickets
+ 	JOIN sessions ON sessions.id=tickets.session_id
+	WHERE sessions.time BETWEEN interval '15:00' AND interval '18:00')
+ clients_this_time,
+	SUM(sessions.price * (SELECT COUNT(tickets) FROM tickets
+						  WHERE tickets.session_id = sessions.id
+						  AND sessions.time BETWEEN interval '15:00' AND interval '18:00'))
+fees_this_time
+FROM sessions ORDER BY times LIMIT 1)),
+times_statistics_18_21 AS(
+(SELECT '18:00 - 21:00' times,
+	(SELECT COUNT(tickets) FROM tickets
+ 	JOIN sessions ON sessions.id=tickets.session_id
+	WHERE sessions.time BETWEEN interval '18:00' AND interval '21:00')
+ clients_this_time,
+	SUM(sessions.price * (SELECT COUNT(tickets) FROM tickets
+						  WHERE tickets.session_id = sessions.id
+						  AND sessions.time BETWEEN interval '18:00' AND interval '21:00'))
+fees_this_time
+FROM sessions ORDER BY times LIMIT 1)),
+times_statistics_21_24 AS(
+(SELECT '21:00 - 00:00' times,
+	(SELECT COUNT(tickets) FROM tickets
+ 	JOIN sessions ON sessions.id=tickets.session_id
+	WHERE sessions.time BETWEEN interval '21:00' AND interval '24:00')
+ clients_this_time,
+	SUM(sessions.price * (SELECT COUNT(tickets) FROM tickets
+						  WHERE tickets.session_id = sessions.id
+						  AND sessions.time BETWEEN interval '21:00' AND interval '24:00'))
+fees_this_time
+FROM sessions ORDER BY times LIMIT 1))
+SELECT * FROM times_statistics_9_15
+UNION ALL
+SELECT * FROM times_statistics_15_18
+UNION ALL
+SELECT * FROM times_statistics_18_21
+UNION ALL
+SELECT * FROM times_statistics_21_24
