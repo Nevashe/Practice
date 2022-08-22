@@ -1,0 +1,12 @@
+// перерывы 30 минут
+// не уверен что корректно, выводятся все перерывы
+SELECT f1.title, s1.time, d1.duration,
+f2.title, s2.time, s2.time - s1.time - d1.duration break
+FROM films f1
+JOIN films f2 ON f1.id != f2.id
+JOIN durations d1 ON f1.duration_id=d1.id
+JOIN durations d2 ON f2.duration_id=d2.id
+JOIN sessions s1 ON s1.film_id=f1.id
+JOIN sessions s2 ON s2.film_id=f2.id
+WHERE s2.time - s1.time - d1.duration > interval '30 minute' AND s1.time < s2.time AND s1.date = s2.date
+ORDER BY (s1.time + d1.duration) - s2.time;
