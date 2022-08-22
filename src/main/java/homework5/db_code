@@ -1,0 +1,6 @@
+CREATE table student
+(
+    id      bigserial primary key,
+    name    varchar(60),
+	mark	smallint
+);

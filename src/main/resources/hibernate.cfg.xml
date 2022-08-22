@@ -1,0 +1,15 @@
+
+<hibernate-configuration>
+    <session-factory>
+        <property name="connection.driver_class">org.postgresql.Driver</property>
+        <property name="connection.url">jdbc:postgresql://localhost:5432/db_homework5?allowPublicKeyRetrieval=true&amp;useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8</property>
+        <property name="connection.username">postgres</property>
+        <property name="connection.password">postgres</property>
+
+        <property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+
+        <property name="current_session_context_class">thread</property>
+
+    </session-factory>
+
+</hibernate-configuration>
